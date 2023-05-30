@@ -13,10 +13,15 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "workspaces":[
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cd frontend && yarn start",
+    "build": "cd frontend && react-scripts build",
     "test": "react-scripts test",
+    "stop": "lsof -i :3000 | awk 'NR!=1 {print $2}' | xargs kill",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
