@@ -1,9 +1,19 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import Play from './components/Play';
+import Navbar from './components/Navbar';
 
-const App = (): ReactElement => {
+const App = () => {
   return (
     <div>
-      <h1>Hi</h1>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/play" element={<Play />} />
+        </Routes>
+      </Router>
     </div>
   );
 };
