@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Account Registration</title>
+    </head>
+    <body>
+        <div id="content_container">
+            <div id="form_container">
+                <div id="form_header_container">
+                    <h2 id="form_header"> Account Registration </h2>
+                </div>
+
+                <div id="form_content_container">
+                    <div id="form_content_inner_container">
+                        <input type="text" id="full_name" placeholder="Full name">
+                        <input type="email" id="email" placeholder="Email">
+                        <input type="password" id="password" placeholder="New Password">
+                        <input type="confirmation" id="confirmation" placeholder="Confirm Password">
+
+
+                        <div id="button_container">
+                            <button onclick="login()">Log In</button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="member">
+                    Have an account? <a href="file:///Users/jollyzheng/Desktop/gopi/login.html">Login Here!</a>
+                </div>
+            </div>
+        </div>
+    </body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+    <!-- Our script must be loaded after firebase references -->
+    <script src="index.js"></script>
+
+</html>
