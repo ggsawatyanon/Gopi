@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'Raleway';
+  src: local('Raleway'), url(./fonts/Raleway.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Raleway-Bold';
+  src: local('Raleway-Bold'), url(./fonts/Raleway-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Raleway-Medium';
+  src: local('Raleway-Medium'), url(./fonts/Raleway-Medium.ttf) format('truetype');
+}

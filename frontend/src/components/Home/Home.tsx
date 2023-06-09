@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Home: React.FC = () => {
+const Home = () => {
 
   const {
     content,
@@ -24,10 +24,12 @@ const Home: React.FC = () => {
   } = useStyles();
 
   return (
-    <div className={content}>
-      <h1 className={pageTitle}>Home</h1>
-      <StudySet/>
-    </div>
+    <>
+      <div className={content}>
+        <h1 className={pageTitle}>Home</h1>
+        <StudySet />
+      </div>
+    </>
   );
 };
 

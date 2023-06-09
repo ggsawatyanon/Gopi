@@ -5,6 +5,7 @@ import Play from './components/Play';
 import Navbar from './components/Navbar';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from './colors';
+import AddNewSet from 'components/Add-New-Set';
 
 const useStyles = makeStyles(() => ({
   root:{
@@ -38,6 +39,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/play" element={<Play />} />
+          <Route path="/add-new-set" element={<AddNewSet />} />
         </Routes>
       </Router>
 

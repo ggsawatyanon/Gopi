@@ -1,7 +1,7 @@
-import firebase from "firebase/app"
-import "firebase/firestore"
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "@firebase/firestore"
 
-const firebaseConfig = {
+const config = {
   apiKey: "AIzaSyB7GtNcTwNgfC7ykSGvzQdMSpkAqZRb3aE",
   authDomain: "gopi-cu.firebaseapp.com",
   projectId: "gopi-cu",
@@ -11,4 +11,5 @@ const firebaseConfig = {
   measurementId: "G-T10KEE6BRK"
 };
 
-firebase.initializeApp(firebaseConfig)
+const app = initializeApp(config)
+export const db = getFirestore(app)
