@@ -4,7 +4,7 @@ import Home from './components/Home/Home';
 import Play from './components/Play';
 import Navbar from './components/Navbar';
 import { makeStyles } from '@material-ui/core/styles';
-import { colors } from './colors';
+import { colors } from './colors.js';
 import AddNewSet from 'components/Add-New-Set';
 
 const useStyles = makeStyles(() => ({

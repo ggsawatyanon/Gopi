@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { colors } from '../colors';
+import { colors } from '../colors.js';
 import { TbEditCircle } from 'react-icons/tb'
 import { FaPlayCircle } from 'react-icons/fa'
 // import { ReactComponent as PlusIcon } from '../assets/plus-solid.svg';
