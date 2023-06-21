@@ -9,7 +9,6 @@ import AddNewSet from 'components/Add-New-Set';
 
 const useStyles = makeStyles(() => ({
   root:{
-    background: colors.green3,
     minHeight: '100vh',
     padding: 0,
     margin: 0

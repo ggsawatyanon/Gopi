@@ -1,53 +1,93 @@
 import React, { useEffect, useState }  from 'react';
-import { Card, CardContent, Grid, makeStyles, Typography, Box } from '@material-ui/core';
+import { Card, CardContent, Grid, makeStyles, Typography, Box, TextField, InputAdornment } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { FiPlus } from 'react-icons/fi';
+import { HiSearch } from 'react-icons/hi';
 import { colors } from '../../colors.js';
 import { db } from '../../firebase';
-import { collection, getDocs } from '@firebase/firestore';
+import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 
 const useStyles = makeStyles({
+    //Green rounded rectangle at top, holding welcome text and most recently played study set
     headingContainer: {
         backgroundColor: colors.green1,
-        height: '15em',
+        height: '16em',
+        width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
         color: 'white',
-        borderRadius:'25px',
-        top: '2em',
         position: 'relative',
-        // width:'65em',
         margin:'0',
         padding: '0',
     },
-    containerTitle:{
-        fontFamily: 'Raleway-Bold',
-        fontSize: 25,
+    //Style of welcome text, currently: "Jumpm into learning with...!""
+    headingTitle:{
+        fontFamily: 'Raleway',
+        fontSize: 17,
         top: '0',
-        margin: '3%'
     },
-    lastPlayedSet: {
-        backgroundColor:'white',
-        color: colors.pink1,
-        borderRadius: '20px',
-        fontFamily: 'Raleway-Bold',
-        fontSize: 15,
-        margin: '10%'
+    //Style of gopi logo in heading
+    headingLogo:{
+        height: '10em',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
     },
+    //Style of search bar
+    searchBar: {
+        marginTop: '3%',
+        marginLeft: '6%',
+        marginBottom: 0,
+        '& .MuiInputBase-root': {
+          backgroundColor: colors.gray1,
+          borderRadius: 20,
+          height: 40,
+          width: 200,
+          marginTop: '4%',
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: colors.gray1,
+            },
+            '&:hover fieldset': {
+                borderColor: colors.green1,
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: colors.green1,
+            },
+        }
+    },
+    //Search icon
+    searchIcon: {
+        color: colors.green1
+    },
+    //Style of grid container of the study sets
     gridContainer: {
-        paddingTop:'5em',
+        paddingTop:'1em',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: '0 auto',
+        maxWidth: '90%',
+        flexWrap: 'wrap',
+        marginTop: 0,
     },
+    //Style for all study set cards 
     cardStyle: {
-        borderRadius: '25px',
+        borderRadius: '30px 30px 25px 25px',
         padding: 0,
         width: '16em',
         height: '14em',
         boxShadow: 'none',
         position: 'relative',
         overflow: 'hidden',
+        border: '1px solid',
+        borderColor: colors.gray1
       },
+      //Style for content inside each card
       cardContent:{
         top: '0',
         left: '0',
@@ -55,6 +95,7 @@ const useStyles = makeStyles({
         margin: 0,
         padding: 0,
     },
+    //Style for first card with plus image on it 
     addCard: {
         height: '100%',
         display: 'flex',
@@ -66,11 +107,13 @@ const useStyles = makeStyles({
         cursor: 'pointer',
         padding:0,
     },
+    //Style for plus image
     addCardImg: {
         height: '6em',
         width: '6em',
         margin: 'auto',
     },
+    //Style for card text that displays study set's name e.g. Intro to Python
     cardName: {
         fontFamily: 'Raleway-Medium',
         color: 'black',
@@ -82,6 +125,7 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         padding: '6%',
     },
+    //Style for rectangle with card inside 
     cardNameContainer: {
         top: '0',
         left: '0',
@@ -96,6 +140,7 @@ const useStyles = makeStyles({
         margin: 0,
         padding: 0,
     },
+    //Style for e.g. 25 Questions
     questionsSumStyle: {
         color: 'white',
         display: 'flex',
@@ -108,6 +153,7 @@ const useStyles = makeStyles({
         fontFamily: 'Raleway-Bold',
         fontSize: 23,
     },
+    //Style for Play button on each card
     playLabelStyle: {
         backgroundColor: 'white',
         display: 'flex',
@@ -125,39 +171,70 @@ const useStyles = makeStyles({
         textAlign: 'center'
     }
 });
+  
 
 const StudySet = () => {
-  const { headingContainer, containerTitle, lastPlayedSet, gridContainer, cardStyle, addCard, addCardImg, 
-    cardName, cardNameContainer, questionsSumStyle, cardContent, playLabelStyle } = useStyles();
-  const [cards, setCards] = useState<any[]>([]);
-  const cardsCollectionRef = collection(db, 'cards')
+    const { headingContainer,headingTitle, searchBar, searchIcon,
+    gridContainer, cardStyle, addCard, addCardImg, cardName, cardNameContainer, questionsSumStyle, 
+    cardContent, playLabelStyle, headingLogo } = useStyles();
+    const [cards, setCards] = useState<any[]>([]);
+    const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    const getCards = async () => {
-      const data = await getDocs(cardsCollectionRef)
-      setCards(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-    }
-    getCards()
-  }, [])
+    useEffect(() => {
+        const getCards = async () => {
+            const cardsCollectionRef = collection(db, 'cards')
+            
+            try{
+                const querySnapshot = await getDocs(cardsCollectionRef)
+                const data = querySnapshot.docs.map((doc) => ({...doc.data(), 
+                    id: doc.id,
+                    name: doc.get('name'),
+                    lowerCaseName: doc.get('name').toLowerCase(),}))
+                //filter for search
+                const filteredData = data.filter((doc) => 
+                doc.lowerCaseName.includes(searchQuery.toLowerCase())
+                )
+
+                setCards(filteredData.map((doc) => ({...doc, id: doc.id, name: doc.name})))
+            } catch (error){
+                console.log('Error fetching cards:', error)
+            }
+        }
+        getCards()
+    }, [searchQuery])
+
+    //Search Bar
+    const handleSBChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(event.target.value);
+    };
 
     return (
         <div>
+            {/* HEADING: */}
             <Box className={headingContainer}>
-                <h1 className={containerTitle}>Jump into Learning with Gopi: Study, Play, and Bloom!</h1>
-                {/* <Grid container spacing={2}>
-                    <Grid item xs={12} sm={3}>
-                    <Box className={lastPlayedSet}>
-                    <Typography variant="h5" component="h2" className={cardName}>
-                        {cards.at}
-                    </Typography>
-                    </Box>
-                    </Grid>
-                </Grid> */}
-                <p>Play Now</p>
+                <h1 className={headingTitle}>Jump into Learning with...</h1>
+                <img className={headingLogo} src="gopi-white-cropped.png" alt="Gopi Logo" />
             </Box>
+
+            {/* SEARCH BAR */}
+            <TextField className={searchBar}
+                variant="outlined"
+                value={searchQuery}
+                onChange={handleSBChange}
+                placeholder="Search"
+                InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end" className={searchIcon}>
+                        <HiSearch />
+                      </InputAdornment>
+                    ),
+                }}
+            />
+
+            {/* STUDY SET CARDS */}
             <Grid container className={gridContainer} spacing={5}>
                 <Grid item xs={12} sm={3}>
-                    <Link to="/add-new-set" className={addCard}>
+                    <Link to="/add-new-set">
                         <Card className={cardStyle}>
                             <CardContent className={addCard}>
                                 <div className={addCardImg}>
