@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { FiPlus } from 'react-icons/fi';
 import { HiSearch } from 'react-icons/hi';
 import { colors } from '../../colors.js';
-import { db } from '../../firebase';
+import { db } from '../../firebase.js';
+import OrderDropDown from './OrderDropDown';
 import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 
 const useStyles = makeStyles({
@@ -38,9 +39,6 @@ const useStyles = makeStyles({
     },
     //Style of search bar
     searchBar: {
-        marginTop: '3%',
-        marginLeft: '6%',
-        marginBottom: 0,
         '& .MuiInputBase-root': {
           backgroundColor: colors.gray1,
           borderRadius: 20,
@@ -58,11 +56,23 @@ const useStyles = makeStyles({
             '&.Mui-focused fieldset': {
                 borderColor: colors.green1,
             },
-        }
+        },
     },
     //Search icon
     searchIcon: {
         color: colors.green1
+    },
+    //OrderDropDown style within the searchSortStyle div
+    sortByStyle:{
+        position: 'absolute',
+        right: '6%', 
+    },
+    //Search bar + OrderDropDown Style
+    searchSortStyle: {
+        width:'100%',
+        marginTop: '3%',
+        marginLeft: '6%',
+        display: 'flex',
     },
     //Style of grid container of the study sets
     gridContainer: {
@@ -171,15 +181,18 @@ const useStyles = makeStyles({
         textAlign: 'center'
     }
 });
-  
 
-const StudySet = () => {
-    const { headingContainer,headingTitle, searchBar, searchIcon,
+
+
+const HomeContent = () => {
+    const { headingContainer,headingTitle, searchBar, searchIcon, sortByStyle, searchSortStyle,
     gridContainer, cardStyle, addCard, addCardImg, cardName, cardNameContainer, questionsSumStyle, 
     cardContent, playLabelStyle, headingLogo } = useStyles();
     const [cards, setCards] = useState<any[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [sortBy, setSortBy] = useState<string>('Last played');
 
+    //Get + Filter + Order cards whenever cards/searchQuery/sortBy is changed
     useEffect(() => {
         const getCards = async () => {
             const cardsCollectionRef = collection(db, 'cards')
@@ -189,23 +202,42 @@ const StudySet = () => {
                 const data = querySnapshot.docs.map((doc) => ({...doc.data(), 
                     id: doc.id,
                     name: doc.get('name'),
-                    lowerCaseName: doc.get('name').toLowerCase(),}))
-                //filter for search
-                const filteredData = data.filter((doc) => 
-                doc.lowerCaseName.includes(searchQuery.toLowerCase())
-                )
+                    lowerCaseName: doc.get('name').toLowerCase(),
+                    lastPlayed: doc.get('lastPlayed'),
+                    created: doc.get('created'),
+                    lastEdited: doc.get('lastEdited')
+                }))
 
-                setCards(filteredData.map((doc) => ({...doc, id: doc.id, name: doc.name})))
+                //Filter for search
+                const filteredData = data.filter((doc) => 
+                doc.lowerCaseName.includes(searchQuery.toLowerCase()))
+
+                // //Order data
+                let sortedData = filteredData
+                if (sortBy === 'Last Played') {
+                    sortedData.sort((a, b) => b.lastPlayed - a.lastPlayed);
+                } else if (sortBy === 'Created first') {
+                    sortedData.sort((a, b) => a.created - b.created);
+                } else if (sortBy === 'Last edited') {
+                    sortedData.sort((a, b) => b.lastEdited - a.lastEdited);
+                }
+
+                setCards(sortedData.map((doc) => ({...doc, id: doc.id, name: doc.name})))
             } catch (error){
                 console.log('Error fetching cards:', error)
             }
         }
         getCards()
-    }, [searchQuery])
+    }, [searchQuery, sortBy]);
 
     //Search Bar
     const handleSBChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
+    };
+
+    //Sort By
+    const handleSortSelect = (option: string) => {
+        setSortBy(option);
     };
 
     return (
@@ -216,20 +248,28 @@ const StudySet = () => {
                 <img className={headingLogo} src="gopi-white-cropped.png" alt="Gopi Logo" />
             </Box>
 
-            {/* SEARCH BAR */}
-            <TextField className={searchBar}
-                variant="outlined"
-                value={searchQuery}
-                onChange={handleSBChange}
-                placeholder="Search"
-                InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end" className={searchIcon}>
-                        <HiSearch />
-                      </InputAdornment>
-                    ),
-                }}
-            />
+            <div className={searchSortStyle}>
+
+                {/* SEARCH BAR */}
+                <TextField className={searchBar}
+                    variant="outlined"
+                    value={searchQuery}
+                    onChange={handleSBChange}
+                    placeholder="Search"
+                    InputProps={{
+                        endAdornment: (
+                        <InputAdornment position="end" className={searchIcon}>
+                            <HiSearch />
+                        </InputAdornment>
+                        ),
+                    }}
+                />
+
+                {/* SORT BY */}
+                <div className={sortByStyle}>
+                    <OrderDropDown sortBy={sortBy} onSortSelect={handleSortSelect} />
+                </div>
+            </div>
 
             {/* STUDY SET CARDS */}
             <Grid container className={gridContainer} spacing={5}>
@@ -270,4 +310,4 @@ const StudySet = () => {
     );
     };
 
-    export default StudySet;
+    export default HomeContent;

@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import StudySet from './StudySet';
-import { colors } from '../../colors.js';
+import HomeContent from './HomeContent';
 
 const useStyles = makeStyles(() => ({    
   content:{
@@ -19,7 +18,7 @@ const Home = () => {
   return (
     <>
       <div className={content}>
-        <StudySet />
+        <HomeContent />
       </div>
     </>
   );

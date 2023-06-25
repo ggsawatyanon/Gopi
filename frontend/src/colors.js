@@ -7,6 +7,7 @@ export const colors = {
     pink1: '#D7388E',
     gray1: '#EEEEEE',      //gray e.g. search bar
     gray2: '#D2D1D1',      //gray e.g. add card outline
+    gray3: '#9D9D9D',       //gray e.g. text like Sort By
 
     // HOME PAGE CARD BACKGROUND COLORS
     cardBGRed: '#FF7C7C',
