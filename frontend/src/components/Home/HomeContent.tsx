@@ -78,8 +78,6 @@ const useStyles = makeStyles({
     gridContainer: {
         paddingTop:'1em',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
         margin: '0 auto',
         maxWidth: '90%',
         flexWrap: 'wrap',
