@@ -5,9 +5,12 @@ export const colors = {
     green4: '#00866E',     // text dark green
     blue1: '#7ACCFA',      // blue
     pink1: '#D7388E',
-    gray1: '#EEEEEE',      //gray e.g. search bar
-    gray2: '#D2D1D1',      //gray e.g. add card outline
-    gray3: '#9D9D9D',       //gray e.g. text like Sort By
+        //GRAY
+    gray1: '#EEEEEE',      //LIGHT gray e.g. search bar
+    gray2: '#D2D1D1',      //LIGHT gray e.g. add card outline
+    gray3: '#9D9D9D',      //DARK gray e.g. text like Sort By
+    gray4: '#6D6D6D',      //DARK dark gray e.g. add page Play button
+    gray5: '#F3F3F3',      //LIGHT gray - almost white e.g. add page edit button
 
     // HOME PAGE CARD BACKGROUND COLORS
     cardBGRed: '#FF7C7C',

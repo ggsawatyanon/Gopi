@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Card, CardContent, Grid, makeStyles, Typography, ListItemIcon } from '@material-ui/core';
 import { colors } from '../colors.js';
-import { TbEditCircle } from 'react-icons/tb'
-import { FaPlayCircle } from 'react-icons/fa'
-// import { ReactComponent as PlusIcon } from '../assets/plus-solid.svg';
-// import PlusIcon from '../../assets/plus-solid.svg';
+import { BsFillPlayFill } from 'react-icons/bs';
 
 const useStyles = makeStyles({
     container: {
@@ -14,44 +10,78 @@ const useStyles = makeStyles({
         marginLeft: '8em',
         width: '100vw'
     },
+
+    //HEADER
     topContainer: {
-        top: 0,
-        backgroundColor: colors.blue1,
-        height: '20vh',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'fixed',
-        width: '100vw'
-    },
-    rectIcons: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '25%',
-    },
-    rectItem: {
-        listStyle: 'none',
-        margin: 0,
+        width:'100%',
+        marginTop: '3%',
+        marginLeft: '6%',
         display: 'flex',
         alignItems: 'center',
-        height: '10%',
+    },
+    studySetTitle: {
+        marginRight: '29vw',
+        fontFamily: 'Raleway-medium',
+        fontWeight: 900,
+        fontSize: '3vw',
+        display: 'inline',
+    },
+    buttonsContainer:{
+        position: 'absolute',
+        right: '6%', 
+        display: 'inline-flex',
+    },
+    playButton: {
+        backgroundColor: colors.gray4,
+        color: 'white',
+        fontFamily: 'Raleway-Medium',
+        fontWeight: 900,
+        fontSize: 20,
+        borderRadius: '20px',
+
+        height: '2.4vw',
+        width: '8.2vw',
+        marginRight: '4%',
+
+        position: 'relative',
+        display: 'inline-flex',
+        margin:0,
+        textAlign: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
         justifyContent: 'center',
     },
-    rectIcon: {
+    editButton: {
+        backgroundColor: colors.gray5,
+        color: colors.gray4,
+        borderColor: colors.gray2,
+        border: '1px solid',
+        fontFamily: 'Raleway-Medium',
+        fontWeight: 900,
+        fontSize: 20,
+        borderRadius: '20px',
+
+        height: '2.4vw',
+        width: '8.2vw',
+
+        position: 'relative',
+        display: 'inline-flex',
+        margin:0,
+        textAlign: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
+    playIcon: {
         height: '7vh',
         width: '7vw',
         margin: 0
     },
-    textArea: {
-        height: '10vh',
-        width: '70%',
-        alignItems: 'center',
-        marginLeft: '4%'
+    editIcon:{
+
     },
-    fontStyle: {
-        fontFamily: 'Raleway-Medium',
-    },
+
+    //STUDY SET
     quizContainer: {
         width: '40vw',
         height: '100vh',
@@ -84,32 +114,34 @@ const useStyles = makeStyles({
 });
 
 const AddNewSet = () => {
-    const { topContainer, rectIcons, rectItem, rectIcon, textArea, fontStyle, quizHeaderLeft, quizHeaderRight, quizContainer, container } = useStyles();
+    const { topContainer, studySetTitle, buttonsContainer, playButton, editButton, playIcon, editIcon, quizContainer, quizHeaderLeft, quizHeaderRight, container } = useStyles();
 
     return (
-        <Grid className={container}>
-            <Grid container className={topContainer}>
-                <Grid className={textArea}>
-                    <Typography className={fontStyle} style={{fontSize: 48}}>Python for beginners</Typography>
-                </Grid>
-                <Grid container className={rectIcons}>
-                    <Grid item className={rectItem}>
-                        <TbEditCircle className={rectIcon} />
-                    </Grid>
-                    <Grid item className={rectItem}>
-                        <FaPlayCircle className={rectIcon}/>
-                    </Grid>
-                </Grid>
-            </Grid>
+        <div  className={container}>
+            <div className={topContainer}>
+                <Typography className={studySetTitle}>Python for beginners</Typography>
+                <div className={buttonsContainer}>
+                    <Typography variant="body2" component="p" className={playButton} >
+                        <ListItemIcon>
+                            <BsFillPlayFill />
+                        </ListItemIcon>
+                        Play
+                    </Typography>
+                    <Typography variant="body2" component="p" className={editButton} >
+                        Edit
+                    </Typography>
+                </div>
+            </div>
+
             <Grid container className={quizContainer}>
                 <Grid className={quizHeaderLeft}>
-                    <Typography className={fontStyle} style={{fontSize: 32}}>Question</Typography>
+                    <Typography style={{fontSize: 32}}>Question</Typography>
                 </Grid>
                 <Grid className={quizHeaderRight}>
-                    <Typography className={fontStyle} style={{fontSize: 32}}>Answer</Typography>
+                    <Typography style={{fontSize: 32}}>Answer</Typography>
                 </Grid>
             </Grid>
-        </Grid>
+        </div>
     );
 };
 
