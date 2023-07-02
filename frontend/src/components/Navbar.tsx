@@ -62,6 +62,9 @@ const Navbar: React.FC = () => {
         <Grid item className={navItem}>
             <Link to="/play">Play</Link>
         </Grid>
+        <Grid item className={navItem}>
+            <Link to="/user">User</Link>
+        </Grid>
       </Grid>
 
       <Grid item>
