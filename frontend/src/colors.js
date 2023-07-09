@@ -11,6 +11,7 @@ export const colors = {
     gray3: '#9D9D9D',      //DARK gray e.g. text like Sort By
     gray4: '#6D6D6D',      //DARK dark gray e.g. add page Play button
     gray5: '#F3F3F3',      //LIGHT gray - almost white e.g. add page edit button
+    gray6: '#F6F7FA',      //LIGHT GRAY - very close to white e.g. Q&A cards
 
     // HOME PAGE CARD BACKGROUND COLORS
     cardBGRed: '#FF7C7C',
