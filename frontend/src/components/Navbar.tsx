@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { colors } from '../colors';
+import { colors } from '../colors.js';
 import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
@@ -61,6 +61,9 @@ const Navbar: React.FC = () => {
         </Grid>
         <Grid item className={navItem}>
             <Link to="/play">Play</Link>
+        </Grid>
+        <Grid item className={navItem}>
+            <Link to="/user">User</Link>
         </Grid>
       </Grid>
 

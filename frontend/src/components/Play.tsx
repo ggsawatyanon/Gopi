@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import { colors } from '../colors';
+import { colors } from '../colors.js';
 
 const useStyles = makeStyles(() => ({
   content:{
@@ -23,7 +23,6 @@ const Play: React.FC = () => {
   return (
     <div className={content}>
       <h1 className={pageTitle}>Play</h1>
-      {/* Add content for the play page */}
     </div>
   );
 };

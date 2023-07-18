@@ -1,18 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import StudySet from './StudySet';
-import { colors } from '../../colors';
+import HomeContent from './HomeContent';
 
 const useStyles = makeStyles(() => ({    
   content:{
-    marginLeft: 'calc(8em + 3%)',
-    marginRight: '3%',
-  },
-  pageTitle: {
-    paddingTop:'1em',
-    margin: 0,
-    fontFamily: 'Raleway, sans-serif',
-    color: colors.green4,
+    background: 'white',
+    marginLeft: '8em',
   },
 }));
 
@@ -20,14 +13,12 @@ const Home = () => {
 
   const {
     content,
-    pageTitle,
   } = useStyles();
 
   return (
     <>
       <div className={content}>
-        <h1 className={pageTitle}>Home</h1>
-        <StudySet />
+        <HomeContent />
       </div>
     </>
   );

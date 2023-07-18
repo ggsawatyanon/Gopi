@@ -1,15 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Navbar from './components/Navbar';
 import Home from './components/Home/Home';
 import Play from './components/Play';
-import Navbar from './components/Navbar';
-import { makeStyles } from '@material-ui/core/styles';
-import { colors } from './colors';
+import User from './components/User';
 import AddNewSet from 'components/Add-New-Set';
+
+import { makeStyles } from '@material-ui/core/styles';
+import { colors } from './colors.js';
 
 const useStyles = makeStyles(() => ({
   root:{
-    background: colors.green3,
     minHeight: '100vh',
     padding: 0,
     margin: 0
@@ -40,6 +42,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/play" element={<Play />} />
           <Route path="/add-new-set" element={<AddNewSet />} />
+          <Route path="/user" element={<User />} />
         </Routes>
       </Router>
 
