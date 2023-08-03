@@ -9,6 +9,8 @@ import AddNewSet from 'components/Add-New-Set';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from './colors.js';
+import SignIn from 'components/auth/SignIn';
+import SignUp from 'components/auth/SignUp';
 
 const useStyles = makeStyles(() => ({
   root:{
@@ -43,6 +45,10 @@ const App = () => {
           <Route path="/play" element={<Play />} />
           <Route path="/add-new-set" element={<AddNewSet />} />
           <Route path="/user" element={<User />} />
+
+          <Route path="/login" element={<SignIn />} />
+          <Route path="/register" element={<SignUp />} />
+
         </Routes>
       </Router>
 
