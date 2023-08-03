@@ -1,10 +1,10 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithPopup, createUserWithEmailAndPassword, AuthErrorCodes } from "firebase/auth";
 import React, { useEffect,useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../colors';
-import { auth, provider } from "../../firebase";
+import { auth, provider, db } from "../../firebase";
+//import { addDoc, collection, doc, setDoc } from "../../firebase/firestore";
 
-import { signInWithPopup } from "firebase/auth"; 
 
 const useStyles = makeStyles(() => ({
     signUpContainer:{
@@ -48,6 +48,19 @@ const useStyles = makeStyles(() => ({
         borderRadius: '8px',
         marginTop: '8px',        
     },
+
+    passwordConfBar:{
+        fontFamily: 'Raleway, sans-serif',
+        backgroundColor: colors.gray1,
+        height: '30px',
+        margin: '15px',
+        width: '275px',
+        borderColor: colors.gray1,
+        borderRadius: '8px',
+        marginTop: '8px',        
+    },
+
+
     SubmitButton:{
         fontFamily: 'Raleway, sans-serif bold',
         borderColor: colors.green1,
@@ -76,7 +89,6 @@ const useStyles = makeStyles(() => ({
         width: '275px',
         textAlign: 'center',
         color: colors.white, 
-        
 
     },
     otherOption:{
@@ -94,6 +106,7 @@ const useStyles = makeStyles(() => ({
     },
 
 
+
 }));
 
 
@@ -104,12 +117,13 @@ const SignUp = () => {
         signUpContainer, headerTitle,
         emailBar, errorMessage,passwordBar, 
         SubmitButton, orText, googleButton,
-        otherOption, googleLogo,
+        otherOption, googleLogo, passwordConfBar,
     } = useStyles();
 
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordConf, setPasswordConf] = useState("");
     const [error, setError] = useState(false);
     
     const [value, setValue] = useState("");
@@ -121,6 +135,8 @@ const SignUp = () => {
 
       //saves the value variable into localStorage, the key is 'email'
       localStorage.setItem("email", data.user.email)
+      
+      
     } )
   };
 
@@ -148,7 +164,14 @@ const SignUp = () => {
     
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
+        /*
+        return db.collection('users').doc(userCredential.user.uid).set({
+            uid: userCredential.user.uid.value,
+            userName: null
+        });
+        */
         console.log(userCredential);
+        alert("Account created!")
         window.location.href = '/';
         
     }).catch((error) => {
@@ -169,7 +192,7 @@ const SignUp = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             />
-            { error && !validateEmail(email) ?
+            {error && !validateEmail(email) ?
             <label className={errorMessage}> Please enter a valid email.</label>: ""}
             
             <br ></br>
@@ -180,11 +203,25 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
             />
             <br></br>
-            { error && password.length <= 6 ?
+            {error && password.length <= 6 ?
             <label className={errorMessage}> Password must be at least 6 characters.    
             </label>: ""}
+
+            <input required className= {passwordConfBar}
+            type={password}
+            placeholder=" Confirm your password"
+            value={passwordConf}
+            onChange={(e) => setPasswordConf(e.target.value)}
+            />
             <br></br>
+            { error && password !== passwordConf ?
+            <label className={errorMessage}> Password do not match.    
+            </label>: ""}
+            <br></br>
+            
             <button className= {SubmitButton} type="submit">CREATE AN ACCOUNT</button>            
+            
+        
         </form>
         
         <p1 className = {orText}> or </p1>
