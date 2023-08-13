@@ -1,6 +1,6 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Grid, makeStyles, Typography, Box, TextField, InputAdornment } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiPlus } from 'react-icons/fi';
 import { HiSearch } from 'react-icons/hi';
 import { colors } from '../../colors.js';
@@ -20,17 +20,17 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         color: 'white',
         position: 'relative',
-        margin:'0',
+        margin: '0',
         padding: '0',
     },
     //Style of welcome text, currently: "Jumpm into learning with...!""
-    headingTitle:{
+    headingTitle: {
         fontFamily: 'Raleway',
         fontSize: 17,
         top: '0',
     },
     //Style of gopi logo in heading
-    headingLogo:{
+    headingLogo: {
         height: '10em',
         display: 'flex',
         alignItems: 'center',
@@ -40,11 +40,11 @@ const useStyles = makeStyles({
     //Style of search bar
     searchBar: {
         '& .MuiInputBase-root': {
-          backgroundColor: colors.gray1,
-          borderRadius: 20,
-          height: 40,
-          width: 200,
-          marginTop: '4%',
+            backgroundColor: colors.gray1,
+            borderRadius: 20,
+            height: 40,
+            width: 200,
+            marginTop: '4%',
         },
         '& .MuiOutlinedInput-root': {
             '& fieldset': {
@@ -63,20 +63,20 @@ const useStyles = makeStyles({
         color: colors.green1
     },
     //OrderDropDown style within the searchSortStyle div
-    sortByStyle:{
+    sortByStyle: {
         position: 'absolute',
-        right: '6%', 
+        right: '6%',
     },
     //Search bar + OrderDropDown Style
     searchSortStyle: {
-        width:'100%',
+        width: '100%',
         marginTop: '3%',
         marginLeft: '6%',
         display: 'flex',
     },
     //Style of grid container of the study sets
     gridContainer: {
-        paddingTop:'1em',
+        paddingTop: '1em',
         display: 'flex',
         margin: '0 auto',
         maxWidth: '90%',
@@ -94,9 +94,9 @@ const useStyles = makeStyles({
         overflow: 'hidden',
         border: '1px solid',
         borderColor: colors.gray1
-      },
-      //Style for content inside each card
-      cardContent:{
+    },
+    //Style for content inside each card
+    cardContent: {
         top: '0',
         left: '0',
         width: '100%',
@@ -113,7 +113,7 @@ const useStyles = makeStyles({
         textDecoration: 'none',
         color: 'inherit',
         cursor: 'pointer',
-        padding:0,
+        padding: 0,
     },
     //Style for plus image
     addCardImg: {
@@ -156,8 +156,8 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         justifyContent: 'center',
         height: '100%',
-        position:'relative',
-        top:'1.7em',
+        position: 'relative',
+        top: '1.7em',
         fontFamily: 'Raleway-Bold',
         fontSize: 23,
     },
@@ -170,12 +170,12 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         height: '2.4em',
         width: '7em',
-        position:'relative',
-        top:'3.3em',
+        position: 'relative',
+        top: '3.3em',
         fontFamily: 'Raleway-Bold',
         fontSize: 20,
         borderRadius: '18px',
-        margin:'auto',
+        margin: 'auto',
         textAlign: 'center'
     }
 });
@@ -183,21 +183,23 @@ const useStyles = makeStyles({
 
 
 const HomeContent = () => {
-    const { headingContainer,headingTitle, searchBar, searchIcon, sortByStyle, searchSortStyle,
-    gridContainer, cardStyle, addCard, addCardImg, cardName, cardNameContainer, questionsSumStyle, 
-    cardContent, playLabelStyle, headingLogo } = useStyles();
+    const { headingContainer, headingTitle, searchBar, searchIcon, sortByStyle, searchSortStyle,
+        gridContainer, cardStyle, addCard, addCardImg, cardName, cardNameContainer, questionsSumStyle,
+        cardContent, playLabelStyle, headingLogo } = useStyles();
     const [cards, setCards] = useState<any[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [sortBy, setSortBy] = useState<string>('Last played');
+    const navigate = useNavigate();
 
     //Get + Filter + Order cards whenever cards/searchQuery/sortBy is changed
     useEffect(() => {
         const getCards = async () => {
             const cardsCollectionRef = collection(db, 'cards')
-            
-            try{
+
+            try {
                 const querySnapshot = await getDocs(cardsCollectionRef)
-                const data = querySnapshot.docs.map((doc) => ({...doc.data(), 
+                const data = querySnapshot.docs.map((doc) => ({
+                    ...doc.data(),
                     id: doc.id,
                     name: doc.get('name'),
                     lowerCaseName: doc.get('name').toLowerCase(),
@@ -207,8 +209,8 @@ const HomeContent = () => {
                 }))
 
                 //Filter for search
-                const filteredData = data.filter((doc) => 
-                doc.lowerCaseName.includes(searchQuery.toLowerCase()))
+                const filteredData = data.filter((doc) =>
+                    doc.lowerCaseName.includes(searchQuery.toLowerCase()))
 
                 // //Order data
                 let sortedData = filteredData
@@ -220,8 +222,8 @@ const HomeContent = () => {
                     sortedData.sort((a, b) => b.lastEdited - a.lastEdited);
                 }
 
-                setCards(sortedData.map((doc) => ({...doc, id: doc.id, name: doc.name})))
-            } catch (error){
+                setCards(sortedData.map((doc) => ({ ...doc, id: doc.id, name: doc.name })))
+            } catch (error) {
                 console.log('Error fetching cards:', error)
             }
         }
@@ -256,9 +258,9 @@ const HomeContent = () => {
                     placeholder="Search"
                     InputProps={{
                         endAdornment: (
-                        <InputAdornment position="end" className={searchIcon}>
-                            <HiSearch />
-                        </InputAdornment>
+                            <InputAdornment position="end" className={searchIcon}>
+                                <HiSearch />
+                            </InputAdornment>
                         ),
                     }}
                 />
@@ -276,7 +278,7 @@ const HomeContent = () => {
                         <Card className={cardStyle}>
                             <CardContent className={addCard}>
                                 <div className={addCardImg}>
-                                    <FiPlus color="#E2E3E3" className={addCardImg}/>
+                                    <FiPlus color="#E2E3E3" className={addCardImg} />
                                 </div>
                             </CardContent>
                         </Card>
@@ -285,27 +287,27 @@ const HomeContent = () => {
                 {
                     cards.map((card) => {
                         return <Grid item xs={12} sm={3}>
-                                    <Card className={cardStyle} style={{ backgroundColor: colors['cardBG' + card.color as keyof typeof colors] }}>
-                                        <CardContent className={cardContent}>
-                                            <div className={cardNameContainer}>
-                                                <Typography variant="h5" component="h2" className={cardName}>
-                                                    {card.name}
-                                                </Typography>
-                                            </div>
-                                            <Typography variant="body2" component="p" className={questionsSumStyle}>
-                                                {card.questionsSum + ' Questions'}
+                                <Card className={cardStyle} style={{ backgroundColor: colors['cardBG' + card.color as keyof typeof colors] }} onClick={() => navigate(`/edit-set/${card.id}`)}>
+                                    <CardContent className={cardContent}>
+                                        <div className={cardNameContainer}>
+                                            <Typography variant="h5" component="h2" className={cardName}>
+                                                {card.name}
                                             </Typography>
-                                            <Typography variant="body2" component="p" className={playLabelStyle} style={{ color: colors['cardPlay' + card.color as keyof typeof colors] }}>
-                                                Play
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
+                                        </div>
+                                        <Typography variant="body2" component="p" className={questionsSumStyle}>
+                                            {card.questionsSum + ' Questions'}
+                                        </Typography>
+                                        <Typography variant="body2" component="p" className={playLabelStyle} style={{ color: colors['cardPlay' + card.color as keyof typeof colors] }}>
+                                            Play
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                        </Grid>
                     })
                 }
             </Grid>
         </div>
     );
-    };
+};
 
-    export default HomeContent;
+export default HomeContent;

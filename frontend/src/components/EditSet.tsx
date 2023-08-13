@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { TextField, CardContent, Grid, makeStyles, Typography, Button } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+import { Button, Grid, Popover, TextField, makeStyles } from '@material-ui/core';
 import { colors } from '../colors';
-import { doc, addDoc, collection } from "firebase/firestore";
-import { db } from '../firebase'
-import { BsFillPlayFill, BsFillCircleFill } from 'react-icons/bs';
+import { BsFillCircleFill, BsFillPlayFill } from 'react-icons/bs';
 import { MdModeEditOutline } from 'react-icons/md';
+import { BlockPicker } from 'react-color';
 import { FiPlus } from 'react-icons/fi';
-import { Popover } from '@material-ui/core';
-import { BlockPicker, SketchPicker } from 'react-color';
 
 const useStyles = makeStyles({
     container: {
@@ -191,15 +191,29 @@ const useStyles = makeStyles({
         height: '5%',
         color: colors.gray2,
     }
-})
+});
 
-const AddNewSet = () => {
+type Question = {
+    question: string;
+    answer: string;
+};
+
+type DocumentData = {
+    name: string;
+    color: string;
+    questions: Question[];
+};
+
+
+export const EditSet = () => {
     const { topContainer, container, colorCircle, studySetTitle, buttonsContainer, qaPairContainer,
         playButton, playIcon, editButton, editIcon, qaTitleContainer, qText, aText, horizontalLine,
         qaCardsContainer, plusCardStyle, plusIcon, qaCardStyle } = useStyles();
+    const { cardId } = useParams();
+    const [cardData, setCardData] = useState<DocumentData | null>(null);
     const [name, setName] = useState('');
+    const [color, setColor] = useState('');
     const [questionList, setQuestionList] = useState([{ question: "", answer: "" }]);
-    const [color, setColor] = useState(colors.cardBGBlue);
     const [anchorEl, setAnchorEl] = useState(null);
     const colorOptions = [colors.cardBGRed, colors.cardBGOrange, colors.cardBGYellow, colors.cardBGGreen, colors.cardBGBlue, colors.cardBGPurple, colors.cardBGPink]
     const open = Boolean(anchorEl);
@@ -220,60 +234,97 @@ const AddNewSet = () => {
         setQuestionList([...questionList, { question: "", answer: "" }]);
     };
 
-    const handleSubmit = async (e: any) => {
-        e.preventDefault();
+    useEffect(() => {
+        const fetchCardData = async () => {
+            if (!cardId) {
+                console.error("Card ID not provided.");
+                return;
+            }
+            const cardRef = doc(db, 'cards', cardId);
+            const cardSnapshot = await getDoc(cardRef);
+            if (cardSnapshot.exists()) {
+                const data = cardSnapshot.data() as DocumentData;
+                setCardData(data);
+                setName(data.name);
+                setColor(data.color);
+                setQuestionList(data.questions);
+            }
+        };
 
+        fetchCardData();
+    }, [cardId]);
+
+    const handleNameChange = (event: any) => {
+        setName(event.target.value);
+    };
+
+    const handleQuestionChange = (event: any, index: any) => {
+        const updatedQuestions = [...questionList];
+        updatedQuestions[index].question = event.target.value;
+        setQuestionList(updatedQuestions);
+    };
+
+    const handleAnswerChange = (event: any, index: any) => {
+        const updatedQuestions = [...questionList];
+        updatedQuestions[index].answer = event.target.value;
+        setQuestionList(updatedQuestions);
+    };
+
+    const handleSave = async () => {
         try {
-            const collectionRef = collection(db, "cards");
-
+            if (!cardId) {
+                console.error("Card ID not provided.");
+                return;
+            }
+            const cardRef = doc(db, 'cards', cardId);
             const questions = questionList.map((singleQuestion) => ({
                 question: singleQuestion.question,
                 answer: singleQuestion.answer,
             }));
-
-            const docData = {
+            await updateDoc(cardRef, {
                 name,
+                color,
                 questions,
-                color
-            };
-
-            await addDoc(collectionRef, docData);
-
-            setQuestionList([{ question: "", answer: "" }]);
-            setName('');
-            setColor(colors.cardBGBlue);
+            });
+            console.log('Card updated successfully');
         } catch (error) {
-            console.error('Error adding document: ', error);
+            console.error('Error updating card:', error);
         }
     };
+
+    if (!cardData) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className={container}>
             <div className={topContainer}>
-                <BsFillCircleFill 
-                    className={colorCircle}  
+                <BsFillCircleFill
+                    className={colorCircle}
                     onClick={handleColorClick}
                     style={{ color: color, cursor: 'pointer' }}
                 />
-                <TextField 
-                    fullWidth 
-                    className={studySetTitle}   
-                    variant="standard" 
-                    placeholder="Set Card Title" 
-                    onChange={(e) => setName(e.target.value)}
+                <TextField
+                    fullWidth
+                    className={studySetTitle}
+                    variant="standard"
+                    placeholder="Set Card Title"
+                    value={name}
+                    onChange={handleNameChange}
                     InputProps={{
                         disableUnderline: true,
-                        style: {fontSize: 34}
-                    }} />
+                        style: { fontSize: 34 },
+                    }}
+                />
                 <div className={buttonsContainer}>
                     <button className={playButton}>
                         <BsFillPlayFill className={playIcon} />
                         Play
                     </button>
 
-                    <button className={editButton}>
+                    <button className={editButton} onClick={handleSave}>
                         <MdModeEditOutline className={editIcon} />
-                        Edit
+                        Save
                     </button>
                 </div>
             </div>
@@ -299,7 +350,7 @@ const AddNewSet = () => {
             </Grid>
 
             <div className={qaCardsContainer}>
-                <form onSubmit={handleSubmit} className={qaCardsContainer}>
+                <form onSubmit={handleSave} className={qaCardsContainer}>
                     {questionList.map((singleQuestion, index) => (
                         <div key={index} className={qaPairContainer}>
                             <TextField
@@ -308,14 +359,10 @@ const AddNewSet = () => {
                                 fullWidth
                                 className={qaCardStyle}
                                 value={singleQuestion.question}
-                                onChange={(e) => {
-                                    const updatedQuestionList = [...questionList];
-                                    updatedQuestionList[index].question = e.target.value;
-                                    setQuestionList(updatedQuestionList);
-                                }}
+                                onChange={(e) => handleQuestionChange(e, index)}
                                 InputProps={{
                                     disableUnderline: true,
-                                    style: {fontSize: 24}
+                                    style: { fontSize: 24 },
                                 }}
                             />
                             <TextField
@@ -325,14 +372,10 @@ const AddNewSet = () => {
                                 fullWidth
                                 className={qaCardStyle}
                                 value={singleQuestion.answer}
-                                onChange={(e) => {
-                                    const updatedQuestionList = [...questionList];
-                                    updatedQuestionList[index].answer = e.target.value;
-                                    setQuestionList(updatedQuestionList);
-                                }}
+                                onChange={(e) => handleAnswerChange(e, index)}
                                 InputProps={{
                                     disableUnderline: true,
-                                    style: {fontSize: 24}
+                                    style: { fontSize: 24 },
                                 }}
                             />
                         </div>
@@ -340,14 +383,10 @@ const AddNewSet = () => {
                     <div className={plusCardStyle} onClick={addQuestion}>
                         <FiPlus className={plusIcon} />
                     </div>
-                    <Button variant="outlined" color="secondary" type="submit">
-                        Create
-                    </Button>
                 </form>
             </div>
         </div>
+    );
 
-    )
 };
 
-export default AddNewSet;
