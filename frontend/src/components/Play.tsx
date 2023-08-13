@@ -23,6 +23,7 @@ const Play: React.FC = () => {
   return (
     <div className={content}>
       <h1 className={pageTitle}>Play</h1>
+      
     </div>
   );
 };

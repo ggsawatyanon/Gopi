@@ -20,11 +20,18 @@ const User = () => {
         content, pageTitle
     } = useStyles();
 
+    const logout = () => {
+        localStorage.clear();
+        window.location.href = '/register'
+      }
+
     return (
         <div className={content}>
 
             <h1 className={pageTitle}>User</h1>
-            <Link to="/play">Play</Link>
+            
+
+            <button onClick = {logout}> Logout </button>
 
         </div>
     );
