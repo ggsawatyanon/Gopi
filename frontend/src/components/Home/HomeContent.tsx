@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         color: 'white',
         position: 'relative',
         margin: '0',
-        padding: '0',
+        padding: '0'
     },
     //Style of welcome text, currently: "Jumpm into learning with...!""
     headingTitle: {
