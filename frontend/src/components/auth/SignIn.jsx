@@ -30,6 +30,7 @@ const useStyles = makeStyles(() => ({
     width: '275px',
     borderColor: colors.gray1,
     borderRadius: '8px',
+    border: '1px',
   },
 
   errorMessage:{
@@ -48,7 +49,8 @@ const useStyles = makeStyles(() => ({
     width: '275px',
     borderColor: colors.gray1,
     borderRadius: '8px',
-    marginTop: '8px',        
+    marginTop: '8px',      
+    border: '1px',  
   },
 
   SubmitButton:{
@@ -62,6 +64,7 @@ const useStyles = makeStyles(() => ({
     textAlign: 'center', 
     marginTop: '20px',
     color: colors.white, 
+    border: '1px',
   },
 
   orText:{
@@ -81,8 +84,7 @@ const useStyles = makeStyles(() => ({
     width: '275px',
     textAlign: 'center',
     color: colors.white, 
-
-
+    border: '1px',
   },
   otherOption:{
     textAlign: 'center',
