@@ -87,7 +87,7 @@ const useStyles = makeStyles({
     cardStyle: {
         borderRadius: '30px 30px 25px 25px',
         padding: 0,
-        width: '16em',
+        width: '20em',
         height: '14em',
         boxShadow: 'none',
         position: 'relative',

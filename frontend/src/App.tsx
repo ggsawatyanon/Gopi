@@ -12,6 +12,7 @@ import { colors } from './colors.js';
 import { EditSet } from 'components/EditSet';
 import SignIn from 'components/auth/SignIn';
 import SignUp from 'components/auth/SignUp';
+import ForgotPassword from 'components/auth/ForgotPass';
 
 const useStyles = makeStyles(() => ({
   root:{
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="/edit-set/:cardId" element={<EditSet /> } />
           <Route path="/login" element={<SignIn />} />
           <Route path="/register" element={<SignUp />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
         </Routes>
       </Router>
 
