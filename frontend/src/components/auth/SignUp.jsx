@@ -27,14 +27,16 @@ const useStyles = makeStyles(() => ({
     },
     headerTitle: {
         textAlign: 'center',
-        fontFamily: 'Raleway, sans-serif',
+        fontFamily: 'Raleway-SemiBold, sans-serif',
         color: colors.black,
         fontSize: '25px',
     },
     emailBar: {
-        fontFamily: 'Raleway, sans-serif',
+        fontFamily: 'Raleway-SemiBold, sans-serif',
+        fontSize: '0.95em',
+        color: colors.gray4,
         backgroundColor: colors.gray5,
-        height: '30px',
+        height: '40px',
         margin: '15px',
         width: '275px',
         borderColor: colors.gray5,
@@ -51,9 +53,11 @@ const useStyles = makeStyles(() => ({
 
     },
     passwordBar: {
-        fontFamily: 'Raleway, sans-serif',
+        fontFamily: 'Raleway-SemiBold, sans-serif',
+        fontSize: '0.95em',
+        color: colors.gray4,
         backgroundColor: colors.gray5,
-        height: '30px',
+        height: '40px',
         margin: '15px',
         width: '275px',
         borderColor: colors.gray5,
@@ -64,9 +68,11 @@ const useStyles = makeStyles(() => ({
     },
 
     passwordConfBar: {
-        fontFamily: 'Raleway, sans-serif',
+        fontFamily: 'Raleway-SemiBold, sans-serif',
+        fontSize: '0.95em',
+        color: colors.gray4,
         backgroundColor: colors.gray5,
-        height: '30px',
+        height: '40px',
         margin: '15px',
         width: '275px',
         borderColor: colors.gray5,
@@ -78,7 +84,8 @@ const useStyles = makeStyles(() => ({
 
 
     SubmitButton: {
-        fontFamily: 'Raleway, sans-serif bold',
+        fontFamily: 'Raleway-SemiBold, sans-serif bold',
+        fontSize: '0.9em',
         borderColor: colors.green1,
         backgroundColor: colors.green1,
         height: '38px',
@@ -87,7 +94,7 @@ const useStyles = makeStyles(() => ({
         borderRadius: '20px',
         textAlign: 'center',
         marginTop: '20px',
-        color: colors.white, 
+        color: 'white', 
         border: '1px',
     },
     orText: {
@@ -206,7 +213,8 @@ const SignUp = () => {
             <div className={signUpContainer}>
                 <h1 className={headerTitle}>Sign Up</h1>
                 <form onSubmit={signUp}>
-                    <input required className={emailBar}
+                    <input required 
+                        className={emailBar}
                         type={email}
                         placeholder="Email"
                         value={email}
@@ -216,7 +224,8 @@ const SignUp = () => {
                         <label className={errorMessage}> Please enter a valid email.</label> : ""}
 
                     <br></br>
-                    <input required className={passwordBar}
+                    <input required
+                        className={passwordBar}
                         type={password}
                         placeholder="Create a Password"
                         value={password}
@@ -227,7 +236,8 @@ const SignUp = () => {
                         <label className={errorMessage}> Password must be at least 6 characters.
                         </label> : ""}
 
-                    <input required className={passwordConfBar}
+                    <input required 
+                        className={passwordConfBar}
                         type={password}
                         placeholder="Confirm your password"
                         value={passwordConf}

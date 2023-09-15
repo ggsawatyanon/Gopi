@@ -28,15 +28,17 @@ const useStyles = makeStyles(() => ({
 
   headerTitle: {
     textAlign: 'center',
-    fontFamily: 'Raleway, sans-serif',
+    fontFamily: 'Raleway-SemiBold, sans-serif',
     color: colors.black,
     fontSize: '25px',
   },
 
   emailBar: {
-    fontFamily: 'Raleway, sans-serif',
+    fontFamily: 'Raleway-SemiBold, sans-serif',
+    fontSize: '0.95em',
+    color: colors.gray4,
     backgroundColor: colors.gray5,
-    height: '30px',
+    height: '40px',
     margin: '15px',
     width: '275px',
     borderColor: colors.gray5,
@@ -54,9 +56,11 @@ const useStyles = makeStyles(() => ({
   },
 
   passwordBar: {
-    fontFamily: 'Raleway, sans-serif',
+    fontFamily: 'Raleway-SemiBold, sans-serif',
+    fontSize: '0.95em',
+    color: colors.gray4,
     backgroundColor: colors.gray5,
-    height: '30px',
+    height: '40px',
     margin: '15px',
     marginBottom: 0,
     width: '275px',
@@ -68,7 +72,8 @@ const useStyles = makeStyles(() => ({
   },
 
   SubmitButton: {
-    fontFamily: 'Raleway, sans-serif bold',
+    fontFamily: 'Raleway-SemiBold, sans-serif bold',
+    fontSize: '0.9em',
     borderColor: colors.green1,
     backgroundColor: colors.green1,
     height: '38px',
@@ -77,7 +82,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: '20px',
     textAlign: 'center',
     marginTop: '20px',
-    color: colors.white, 
+    color: 'white', 
     border: '1px'
   },
 
@@ -120,9 +125,9 @@ const useStyles = makeStyles(() => ({
   },
   caption: {
     textAlign: 'right',
-    fontFamily: 'Raleway, sans-serif',
+    fontFamily: 'Raleway-SemiBold, sans-serif',
     color: colors.gray3,
-    fontSize: '16px'
+    fontSize: '0.75em'
   }
 }));
 
