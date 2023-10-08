@@ -6860,7 +6860,7 @@ gopd@^1.0.1:
   dependencies:
     get-intrinsic "^1.1.3"
 
-"gopi@file:/Users/grace-sawatyanon/Gopi/frontend":
+"gopi@file:/Users/jollyzheng/Desktop/Gopi/frontend":
   version "0.1.0"
   resolved "file:frontend"
   dependencies:
