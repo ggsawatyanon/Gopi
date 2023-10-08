@@ -5,6 +5,9 @@ import { colors } from '../../colors';
 import { auth, provider } from "../../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { TextField, InputAdornment } from "@material-ui/core";
+import { MdEmail } from 'react-icons/md';
+import { RiLockFill, RiLockLine } from 'react-icons/ri';
 
 const useStyles = makeStyles(() => ({
 
@@ -13,7 +16,11 @@ const useStyles = makeStyles(() => ({
         right: '15%',
         width: '50vw-8em',
         height: '100vh',
-        top: '100px',
+        top: '10px',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
     },
 
     logoContainer: {
@@ -34,16 +41,17 @@ const useStyles = makeStyles(() => ({
     },
 
     emailBar: {
-        fontFamily: 'Raleway-SemiBold, sans-serif',
-        fontSize: '0.95em',
-        color: colors.gray4,
         backgroundColor: colors.gray5,
         height: '40px',
-        margin: '15px',
+        margin: '0 auto',
         width: '275px',
         borderColor: colors.gray5,
         borderRadius: '8px',
-        textIndent: 10
+        textIndent: 10,
+        border: '1px',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
     },
 
     errorMessage: {
@@ -55,18 +63,19 @@ const useStyles = makeStyles(() => ({
     },
 
     passwordBar: {
-        fontFamily: 'Raleway-SemiBold, sans-serif',
-        fontSize: '0.95em',
-        color: colors.gray4,
         backgroundColor: colors.gray5,
         height: '40px',
-        margin: '15px',
         marginBottom: 0,
         width: '275px',
         borderColor: colors.gray5,
         borderRadius: '8px',
         marginTop: '8px',
-        textIndent: 10
+        border: '1px',
+        margin: '0 auto',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        textIndent: 10,
     },
 
     SubmitButton: {
@@ -79,8 +88,9 @@ const useStyles = makeStyles(() => ({
         width: '275px',
         borderRadius: '20px',
         textAlign: 'center',
-        marginTop: '20px',
+        marginTop: '10px',
         color: 'white',
+        border: '1px',
     },
 
     orText: {
@@ -88,7 +98,6 @@ const useStyles = makeStyles(() => ({
         fontFamily: 'Raleway, bold',
         color: colors.gray4,
         fontSize: '13px',
-        paddingLeft: '150px'
     },
 
     googleButton: {
@@ -100,7 +109,7 @@ const useStyles = makeStyles(() => ({
         width: '275px',
         textAlign: 'center',
         color: colors.white,
-
+        border: '1px',
 
     },
     otherOption: {
@@ -185,33 +194,72 @@ const ForgotPassword = () => {
             <div className={signInContainer}>
                 <form onSubmit={signIn}>
                     <h1 className={headerTitle}>Forgot Password</h1>
-                    <input required className={emailBar}
-                        type={email}
+                    <TextField required className={emailBar}
+                        type="email"
                         placeholder="Email"
                         value={email}
                         // onChange={(e) => setEmail(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start" style={{paddingLeft: '10px'}}>
+                                    <MdEmail style={{color: colors.gray4}}/>
+                                </InputAdornment>
+                            ),
+                            disableUnderline: true,
+                            style: {
+                                fontFamily: 'Raleway-SemiBold, sans-serif',
+                                fontSize: '0.95em',
+                                color: colors.gray4,
+                            }
+                        }}
                     />
+                    <br></br>
                     {/* {error && !validateEmail(email) ?
                         <label className={errorMessage}> Please enter a valid email.</label> : ""} */}
 
-                    <br></br>
-                    <input required className={passwordBar}
-                        type={password}
+                    <TextField required className={passwordBar}
+                        type="password"
                         placeholder="New Password"
                         value={password}
                         // onChange={(e) => setPassword(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start" style={{paddingLeft: '10px'}}>
+                                    <RiLockFill style={{color: colors.gray4}}/>
+                                </InputAdornment>
+                            ),
+                            disableUnderline: true,
+                            style: {
+                                fontFamily: 'Raleway-SemiBold, sans-serif',
+                                fontSize: '0.95em',
+                                color: colors.gray4,
+                            }
+                        }}
                     />
-                    <br></br>
                     <br></br>
                     {/* {error && password.length <= 6 ?
                         <label className={errorMessage}> Password must be at least 6 characters.
                         </label> : ""} */}
 
-                    <input required className={passwordBar}
-                        type={password}
+                    <TextField required 
+                        className={passwordBar}
+                        type="password"
                         placeholder="Confirm your password"
                         // value={passwordConf}
                         // onChange={(e) => setPasswordConf(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start" style={{paddingLeft: '10px'}}>
+                                    <RiLockLine style={{color: colors.gray4}}/>
+                                </InputAdornment>
+                            ),
+                            disableUnderline: true,
+                            style: {
+                                fontFamily: 'Raleway-SemiBold, sans-serif',
+                                fontSize: '0.95em',
+                                color: colors.gray4,
+                            }
+                        }}
                     />
                     <br></br>
                     {/* {error && password !== passwordConf ?

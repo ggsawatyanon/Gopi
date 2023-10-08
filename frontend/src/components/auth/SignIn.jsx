@@ -5,6 +5,9 @@ import { colors } from '../../colors';
 import { auth, provider } from "../../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { TextField, InputAdornment } from "@material-ui/core";
+import { MdEmail } from 'react-icons/md';
+import { RiLockFill } from 'react-icons/ri';
 
 const useStyles = makeStyles(() => ({
 
@@ -13,7 +16,11 @@ const useStyles = makeStyles(() => ({
     right: '15%',
     width: '50vw-8em',
     height: '100vh',
-    top: '100px',
+    top: '10px',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 
   logoContainer: {
@@ -34,16 +41,16 @@ const useStyles = makeStyles(() => ({
   },
 
   emailBar: {
-    fontFamily: 'Raleway-SemiBold, sans-serif',
-    fontSize: '0.95em',
-    color: colors.gray4,
     backgroundColor: colors.gray5,
     height: '40px',
-    margin: '15px',
+    margin: '0 auto',
     width: '275px',
     borderColor: colors.gray5,
     borderRadius: '8px',
     border: '1px',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
     textIndent: 10
   },
 
@@ -56,18 +63,18 @@ const useStyles = makeStyles(() => ({
   },
 
   passwordBar: {
-    fontFamily: 'Raleway-SemiBold, sans-serif',
-    fontSize: '0.95em',
-    color: colors.gray4,
     backgroundColor: colors.gray5,
     height: '40px',
-    margin: '15px',
+    margin: '0 auto',
     marginBottom: 0,
     width: '275px',
     borderColor: colors.gray5,
     borderRadius: '8px',
     marginTop: '8px',      
     border: '1px',  
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
     textIndent: 10
   },
 
@@ -81,7 +88,7 @@ const useStyles = makeStyles(() => ({
     width: '275px',
     borderRadius: '20px',
     textAlign: 'center',
-    marginTop: '20px',
+    marginTop: '10px',
     color: 'white', 
     border: '1px'
   },
@@ -91,7 +98,6 @@ const useStyles = makeStyles(() => ({
     fontFamily: 'Raleway, bold',
     color: colors.gray4,
     fontSize: '13px',
-    paddingLeft: '150px'
   },
 
   googleButton: {
@@ -191,21 +197,49 @@ const SignIn = () => {
       </div>
       <div className={signInContainer}>
         <form onSubmit={signIn}>
-          <h1 className={headerTitle}>Login</h1>
-          <input required className={emailBar}
+        <h1 className={headerTitle}>Login</h1>
+          <TextField required 
+          className={emailBar}
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          ></input>
+            InputProps={{
+              startAdornment: (
+                  <InputAdornment position="start" style={{paddingLeft: '10px'}}>
+                      <MdEmail style={{color: colors.gray4}}/>
+                  </InputAdornment>
+              ),
+              disableUnderline: true,
+              style: {
+                  fontFamily: 'Raleway-SemiBold, sans-serif',
+                  fontSize: '0.95em',
+                  color: colors.gray4,
+              }
+          }}
+          />
 
           <br></br>
-          <input required className={passwordBar}
+          <TextField required 
+            className={passwordBar}
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          ></input>
+            InputProps={{
+              startAdornment: (
+                  <InputAdornment position="start" style={{paddingLeft: '10px'}}>
+                      <RiLockFill style={{color: colors.gray4}}/>
+                  </InputAdornment>
+              ),
+              disableUnderline: true,
+              style: {
+                  fontFamily: 'Raleway-SemiBold, sans-serif',
+                  fontSize: '0.95em',
+                  color: colors.gray4,
+              }
+            }}
+          />
           <Link to="/forgotpassword" style={{ textDecoration: 'none' }}>
             <p className={caption}>Forgot Password?</p>
           </Link>

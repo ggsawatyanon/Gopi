@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../colors';
 import { auth, provider, db } from "../../firebase";
-import { TextField } from "@material-ui/core";
 import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "../../firebase/firestore";
+import { TextField, InputAdornment } from "@material-ui/core";
+import { MdEmail } from 'react-icons/md';
+import { RiLockFill, RiLockLine } from 'react-icons/ri';
 
 
 const useStyles = makeStyles(() => ({
@@ -13,8 +16,11 @@ const useStyles = makeStyles(() => ({
         right: '15%',
         width: '50vw - 8em',
         height: '100vh',
-        top: '100px',
-
+        top: '10px',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
     },
     logoContainer: {
         width: '53vw',
@@ -37,12 +43,15 @@ const useStyles = makeStyles(() => ({
         color: colors.gray4,
         backgroundColor: colors.gray5,
         height: '40px',
-        margin: '10px',
         width: '275px',
         borderColor: colors.gray5,
         borderRadius: '8px',
         border: '1px',
-        textIndent: 10
+        margin: '0 auto',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        textIndent: 10,
     },
     errorMessage: {
         margin: '20px',
@@ -51,7 +60,6 @@ const useStyles = makeStyles(() => ({
         paddingBottom: '5px',
 
     },
-
     SubmitButton: {
         fontFamily: 'Raleway-SemiBold, sans-serif bold',
         fontSize: '0.9em',
@@ -62,8 +70,8 @@ const useStyles = makeStyles(() => ({
         width: '275px',
         borderRadius: '20px',
         textAlign: 'center',
-        marginTop: '20px',
-        color: 'white',
+        marginTop: '10px',
+        color: 'white', 
         border: '1px',
     },
     orText: {
@@ -71,7 +79,6 @@ const useStyles = makeStyles(() => ({
         fontFamily: 'Raleway, bold',
         color: colors.gray4,
         fontSize: '13px',
-        paddingLeft: '150px'
     },
     googleButton: {
         fontFamily: 'Raleway, sans-serif bold',
@@ -201,12 +208,25 @@ const SignUp = () => {
             <div className={signUpContainer}>
                 <h1 className={headerTitle}>Sign Up</h1>
                 <form onSubmit={signUp}>
-                    <input required
+                    <TextField required 
                         className={inputBar}
-                        type={email}
+                        type="email"
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start" style={{paddingLeft: '10px'}}>
+                                    <MdEmail style={{color: colors.gray4}}/>
+                                </InputAdornment>
+                            ),
+                            disableUnderline: true,
+                            style: {
+                                fontFamily: 'Raleway-SemiBold, sans-serif',
+                                fontSize: '0.95em',
+                                color: colors.gray4,
+                            }
+                        }}
                     />
                     {error && !validateEmail(email) ?
                         <label className={errorMessage}> Please enter a valid email.</label> : ""}
@@ -223,24 +243,50 @@ const SignUp = () => {
                         <label className={errorMessage}> Please enter a username with only letters and numbers.</label> : ""}
 
                     <br></br>
-                    <input required
+                    <TextField required
                         className={inputBar}
                         type="password"
                         placeholder="Create a Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start" style={{paddingLeft: '10px'}}>
+                                    <RiLockFill style={{color: colors.gray4}}/>
+                                </InputAdornment>
+                            ),
+                            disableUnderline: true,
+                            style: {
+                                fontFamily: 'Raleway-SemiBold, sans-serif',
+                                fontSize: '0.95em',
+                                color: colors.gray4,
+                            }
+                        }}
                     />
                     <br></br>
                     {error && password.length <= 6 ?
                         <label className={errorMessage}> Password must be at least 6 characters.
                         </label> : ""}
 
-                    <input required
+                    <TextField required 
                         className={inputBar}
                         type="password"
                         placeholder="Confirm your password"
                         value={passwordConf}
                         onChange={(e) => setPasswordConf(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start" style={{paddingLeft: '10px'}}>
+                                    <RiLockLine style={{color: colors.gray4}}/>
+                                </InputAdornment>
+                            ),
+                            disableUnderline: true,
+                            style: {
+                                fontFamily: 'Raleway-SemiBold, sans-serif',
+                                fontSize: '0.95em',
+                                color: colors.gray4,
+                            }
+                        }}
                     />
                     <br></br>
                     {error && password !== passwordConf ?
