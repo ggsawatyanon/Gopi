@@ -241,7 +241,7 @@ const HomeContent = () => {
     };
 
     return (
-        <div>
+        <div style={{position: 'fixed'}}>
             {/* HEADING: */}
             <Box className={headingContainer}>
                 <h1 className={headingTitle}>Jump into Learning with...</h1>
