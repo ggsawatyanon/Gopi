@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { TextField, InputAdornment } from "@material-ui/core";
 import { MdEmail } from 'react-icons/md';
 import { RiLockFill, RiLockLine } from 'react-icons/ri';
+import SignInWithGoogle from './SignInWithGoogle.tsx';
 
 const useStyles = makeStyles(() => ({
 
@@ -273,9 +274,7 @@ const ForgotPassword = () => {
                 <br></br>
 
                 {value ? window.location.href = '/' :
-                    <button className={googleButton} onClick={handleClick}>
-                        <img className={googleLogo} src="googleLogo.png" alt="Google" />
-                        Sign In with Google</button>
+                    <SignInWithGoogle handleClick={handleClick} />
                 }
 
 
