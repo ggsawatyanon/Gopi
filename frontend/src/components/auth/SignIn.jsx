@@ -1,4 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
+import SignInWithGoogle from './SignInWithGoogle.tsx';
 import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../colors';
@@ -251,9 +252,7 @@ const SignIn = () => {
         <br></br>
 
         {value ? window.location.href = '/' :
-          <button className={googleButton} onClick={handleClick}>
-            <img className={googleLogo} src="googleLogo.png" alt="Google" />
-            Sign In with Google</button>
+          <SignInWithGoogle handleClick={handleClick} />
         }
 
 
