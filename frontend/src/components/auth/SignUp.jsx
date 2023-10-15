@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../colors';
 import { auth, provider, db } from "../../firebase";
 import { addDoc, collection } from "firebase/firestore";
-import { addDoc, collection, doc, setDoc } from "../../firebase/firestore";
 import { TextField, InputAdornment } from "@material-ui/core";
 import { MdEmail } from 'react-icons/md';
 import { RiLockFill, RiLockLine } from 'react-icons/ri';
@@ -56,7 +55,7 @@ const useStyles = makeStyles(() => ({
     },
     errorMessage: {
         margin: '20px',
-        color: colors.gray3,
+        color: colors.black,
         fontSize: '14px',
         paddingBottom: '5px',
 
@@ -146,39 +145,38 @@ const SignUp = () => {
         setValue(localStorage.getItem('email'));
     }, []);
 
-
-    const validateEmail = (email) => {
-        return String(email).toLowerCase().match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
-    };
-
-    const validateUsername = (username) => {
-        return /^[A-Za-z0-9]*$/.test(username);
-    }
-
     const signUp = async (e) => {
         e.preventDefault();
-        if (!validateEmail(email)) {
-            setError(true);
-        }
-        if (password.length <= 6) {
-            setError(true);
-        }
-        if (username.length <= 3 && !validateUsername(username)) {
-            setError(true);
-        }
 
-        createUserWithEmailAndPassword(auth, email, username, password)
-            .then((userCredential) => {
-                console.log(userCredential);
-                alert("Account created!")
-                window.location.href = '/';
+        createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+            if (passwordConf != password){
+                throw new Error();
+            }
 
-            }).catch((error) => {
-                console.log(error);
 
-            });
+            console.log(userCredential);
+            alert("Account created!")
+            window.location.href = '/';
+            setError(undefined);
+
+        }).catch((error) => {
+            if (error.code == "auth/email-already-in-use") {
+                var writtenError = "The email address is already in use.";
+            } else if (error.code == "auth/invalid-email") {
+                writtenError = "The email address is invalid.";
+            } else if (error.code == "auth/operation-not-allowed") {
+                writtenError = "Operation not allowed.";
+            } else if (error.code == "auth/weak-password") {
+                writtenError = "The password is too weak.";
+            } else if (passwordConf != password){
+                writtenError = "Password is not the same";
+            }
+            
+            console.log(error);
+            setError(writtenError);
+
+        });
+            
 
         try {
             const collectionRef = collection(db, "userinfo");
@@ -229,19 +227,6 @@ const SignUp = () => {
                             }
                         }}
                     />
-                    {error && !validateEmail(email) ?
-                        <label className={errorMessage}> Please enter a valid email.</label> : ""}
-                    <br></br>
-
-                    <input required
-                        className={inputBar}
-                        type={username}
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    {error && !validateUsername(username) ?
-                        <label className={errorMessage}> Please enter a username with only letters and numbers.</label> : ""}
 
                     <br></br>
                     <TextField required
@@ -265,9 +250,6 @@ const SignUp = () => {
                         }}
                     />
                     <br></br>
-                    {error && password.length <= 6 ?
-                        <label className={errorMessage}> Password must be at least 6 characters.
-                        </label> : ""}
 
                     <TextField required 
                         className={inputBar}
@@ -290,10 +272,8 @@ const SignUp = () => {
                         }}
                     />
                     <br></br>
-                    {error && password !== passwordConf ?
-                        <label className={errorMessage}> Password do not match.
-                        </label> : ""}
-                    <br></br>
+
+                    {error ? <p className = {errorMessage }> {error}</p>: null}
 
                     <button className={SubmitButton} type="submit">CREATE AN ACCOUNT</button>
 
