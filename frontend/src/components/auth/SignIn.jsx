@@ -57,7 +57,7 @@ const useStyles = makeStyles(() => ({
 
   errorMessage: {
     margin: '20px',
-    color: colors.gray3,
+    color: 'red',
     fontSize: '14px',
     paddingBottom: '5px',
 
@@ -96,10 +96,12 @@ const useStyles = makeStyles(() => ({
 
   orText: {
     textAlign: 'center',
-    fontFamily: 'Raleway, bold',
+    fontFamily: 'Raleway, sans-serif bold',
     color: colors.gray4,
     fontSize: '13px',
-  },
+    paddingTop: '6px',
+    paddingBottom: '6px',
+},
 
   googleButton: {
     fontFamily: 'Raleway, sans-serif bold',
@@ -249,7 +251,7 @@ const SignIn = () => {
         </form>
 
         <p1 className={orText}> or </p1>
-        <br></br>
+
 
         {value ? window.location.href = '/' :
           <SignInWithGoogle handleClick={handleClick} />

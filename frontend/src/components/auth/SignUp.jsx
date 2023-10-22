@@ -8,7 +8,7 @@ import { TextField, InputAdornment } from "@material-ui/core";
 import { MdEmail } from 'react-icons/md';
 import { RiLockFill, RiLockLine } from 'react-icons/ri';
 import SignInWithGoogle from './SignInWithGoogle.tsx';
-
+import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles(() => ({
     signUpContainer: {
@@ -76,9 +76,11 @@ const useStyles = makeStyles(() => ({
     },
     orText: {
         textAlign: 'center',
-        fontFamily: 'Raleway, bold',
+        fontFamily: 'Raleway, sans-serif bold',
         color: colors.gray4,
         fontSize: '13px',
+        paddingTop: '6px',
+        paddingBottom: '6px',
     },
     googleButton: {
         fontFamily: 'Raleway, sans-serif bold',
@@ -93,13 +95,11 @@ const useStyles = makeStyles(() => ({
 
     },
     otherOption: {
-        textAlign: 'center',
-        fontFamily: 'Raleway, bold',
+        textAlign: 'left',
+        fontFamily: 'Raleway-SemiBold, sans-serif',
         color: colors.gray4,
         fontSize: '14px',
         marginTop: '40px',
-        paddingLeft: '35px',
-
     },
     googleLogo: {
         width: '15%',
@@ -109,7 +109,15 @@ const useStyles = makeStyles(() => ({
         width: '28vw',
         height: '28vh',
         paddingLeft: '4em'
-    }
+    },
+    errorMessage: {
+        margin: '0px',
+        color: 'red',
+        fontSize: '14px',
+        paddingBottom: '10px',
+        textAlign: 'center',
+    
+      },
 }));
 
 
@@ -282,7 +290,6 @@ const SignUp = () => {
 
                 <p1 className={orText}> or </p1>
 
-                <br></br>
 
                 {value ? window.location.href = '/' :
                     <SignInWithGoogle handleClick={handleClick} />
@@ -292,7 +299,7 @@ const SignUp = () => {
                 <br></br>
 
                 <p1 className={otherOption}> Already have an account?
-                    <a href="/login"> SignIn  → </a>
+                    <a href="/login"> Sign in   → </a>
                 </p1>
 
             </div>
