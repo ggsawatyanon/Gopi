@@ -1,0 +1,37 @@
+# Unity generated
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+
+# Visual Studio / MonoDevelop generated
+/*.userprefs
+/*.csproj
+/*.pidb
+/*.suo
+/*.sln
+/*.user
+/*.unityproj
+/*.booproj
+
+# Rider generated
+.idea/
+
+# Mac and Windows files
+.DS_Store
+.Thumbs.db
+
+# Unity3D generated meta files
+*.pidb.meta
+
+# Unity3D Generated File On Crash Reports
+sysinfo.txt
+
+# Firebase CLI
+**/node_modules/*
+**/npm-debug.log
+console/.firebaserc
+console/firebase-debug.log
