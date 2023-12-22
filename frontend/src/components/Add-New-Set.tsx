@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, CardContent, Grid, makeStyles, Typography, Button } from '@material-ui/core';
+import { TextField, Grid, makeStyles, Button } from '@material-ui/core';
 import { colors } from '../colors';
 import { doc, addDoc, collection } from "firebase/firestore";
 import { db } from '../firebase'
@@ -7,7 +7,7 @@ import { BsFillPlayFill, BsFillCircleFill } from 'react-icons/bs';
 import { MdModeEditOutline } from 'react-icons/md';
 import { FiPlus } from 'react-icons/fi';
 import { Popover } from '@material-ui/core';
-import { BlockPicker, SketchPicker } from 'react-color';
+import { GithubPicker } from 'react-color';
 
 const useStyles = makeStyles({
     container: {
@@ -285,7 +285,7 @@ const AddNewSet = () => {
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             >
-                <BlockPicker color={color} onChange={handleColorChange} colors={colorOptions} />
+                <GithubPicker width={'175px'} color={color} onChange={handleColorChange} colors={colorOptions} />
             </Popover>
 
             <Grid container className={qaTitleContainer}>
