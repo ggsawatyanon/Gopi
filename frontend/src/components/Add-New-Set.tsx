@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, CardContent, Grid, makeStyles, Typography, Button } from '@material-ui/core';
+import { TextField, Grid, makeStyles, Button } from '@material-ui/core';
 import { colors } from '../colors';
 import { doc, addDoc, collection } from "firebase/firestore";
 import { db } from '../firebase'
@@ -7,7 +7,8 @@ import { BsFillPlayFill, BsFillCircleFill } from 'react-icons/bs';
 import { MdModeEditOutline } from 'react-icons/md';
 import { FiPlus } from 'react-icons/fi';
 import { Popover } from '@material-ui/core';
-import { BlockPicker, SketchPicker } from 'react-color';
+import { GithubPicker } from 'react-color';
+import { FaTrash } from 'react-icons/fa';
 
 const useStyles = makeStyles({
     container: {
@@ -149,10 +150,10 @@ const useStyles = makeStyles({
     },
     qaPairContainer: {
         marginBottom: '2%',
-        width: '80%',
+        width: '85%',
         minHeight: '5em',
         display: 'flex',
-        backgroundColor: colors.gray6,
+        // backgroundColor: colors.gray6,
         borderRadius: '25px',
         flexDirection: 'row'
     },
@@ -190,13 +191,20 @@ const useStyles = makeStyles({
         width: '6%',
         height: '5%',
         color: colors.gray2,
+    },
+    trashIcon: {
+        color: colors.gray4,
+        height: '2.5%',
+        width: '2.5%',
+        marginTop: '2.5%',
+        marginLeft: '1%'
     }
 })
 
 const AddNewSet = () => {
     const { topContainer, container, colorCircle, studySetTitle, buttonsContainer, qaPairContainer,
         playButton, playIcon, editButton, editIcon, qaTitleContainer, qText, aText, horizontalLine,
-        qaCardsContainer, plusCardStyle, plusIcon, qaCardStyle } = useStyles();
+        qaCardsContainer, plusCardStyle, plusIcon, qaCardStyle, trashIcon } = useStyles();
     const [name, setName] = useState('');
     const [questionList, setQuestionList] = useState([{ question: "", answer: "" }]);
     const [color, setColor] = useState(colors.cardBGBlue);
@@ -218,6 +226,11 @@ const AddNewSet = () => {
 
     const addQuestion = () => {
         setQuestionList([...questionList, { question: "", answer: "" }]);
+    };
+
+    const removeQuestion = (indexToRemove: any) => {
+        const updatedQuestions = questionList.filter((_, index) => index !== indexToRemove);
+        setQuestionList(updatedQuestions);
     };
 
     const handleSubmit = async (e: any) => {
@@ -285,7 +298,7 @@ const AddNewSet = () => {
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             >
-                <BlockPicker color={color} onChange={handleColorChange} colors={colorOptions} />
+                <GithubPicker width={'175px'} color={color} onChange={handleColorChange} colors={colorOptions} />
             </Popover>
 
             <Grid container className={qaTitleContainer}>
@@ -317,6 +330,11 @@ const AddNewSet = () => {
                                     disableUnderline: true,
                                     style: {fontSize: 24}
                                 }}
+                                style={{
+                                    marginLeft: '3%',
+                                    borderTopRightRadius: 0,
+                                    borderBottomRightRadius: 0,
+                                }}  
                             />
                             <TextField
                                 required
@@ -334,7 +352,12 @@ const AddNewSet = () => {
                                     disableUnderline: true,
                                     style: {fontSize: 24}
                                 }}
+                                style={{
+                                    borderTopLeftRadius: 0,
+                                    borderBottomLeftRadius: 0,
+                                }}
                             />
+                            <FaTrash className={trashIcon} onClick={() => removeQuestion(index)}/>
                         </div>
                     ))}
                     <div className={plusCardStyle} onClick={addQuestion}>
